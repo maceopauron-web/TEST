@@ -103,15 +103,15 @@
     </div>
 
     <div id="content-viewer">
-        <iframe name="viewer" id="main-iframe" src="V1.html"></iframe>
+        <iframe name="viewer" id="main-iframe" src="V2.html"></iframe>
     </div>
 
     <script>
         // 1. LISTE DE VOS NEWSLETTERS
-        // Quand vous créez V2.html, ajoutez-la simplement ici :
+        // Ajout de l'édition V2 ici :
         const newsletters = [
-            { filename: "V1.html", title: "📈 Une action, c'est quoi ?", date: "Édition #1" },
-            // { filename: "V2.html", title: "💰 Comprendre l'inflation", date: "Édition #2" },
+            { filename: "V2.html", title: "🏦 L'Épargne de précaution", date: "Édition #2" },
+            { filename: "V1.html", title: "📈 Une action, c'est quoi ?", date: "Édition #1" }
         ];
 
         const container = document.getElementById('links-container');
@@ -119,24 +119,4 @@
 
         newsletters.forEach((nl, index) => {
             const a = document.createElement('a');
-            a.className = `newsletter-link ${index === 0 ? 'active' : ''}`;
-            a.innerHTML = `
-                <div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.7;">${nl.date}</div>
-                <div style="font-weight: bold;">${nl.title}</div>
-            `;
-            
-            a.onclick = (e) => {
-                e.preventDefault();
-                // Mise à jour de l'iframe
-                iframe.src = nl.filename;
-                
-                // Gestion du style "actif"
-                document.querySelectorAll('.newsletter-link').forEach(link => link.classList.remove('active'));
-                a.classList.add('active');
-            };
-            
-            container.appendChild(a);
-        });
-    </script>
-</body>
-</html>
+            // On rend le premier élément de la liste actif par défaut
