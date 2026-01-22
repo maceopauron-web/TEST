@@ -9,6 +9,7 @@
             --bg-site: #f8f9fa;
             --sidebar-width: 320px;
             --accent: #131b20;
+            --blue-action: #0070f3;
         }
 
         body {
@@ -17,7 +18,7 @@
             display: flex;
             height: 100vh;
             background: var(--bg-site);
-            overflow: hidden; /* Empêche le scroll sur toute la page */
+            overflow: hidden;
         }
 
         /* Liste latérale */
@@ -44,8 +45,8 @@
 
         .nav-list {
             padding: 15px;
-            overflow-y: auto; /* Permet de scroller uniquement dans la liste si elle est longue */
-            flex-grow: 1;
+            overflow-y: auto;
+            flex-grow: 1; /* Prend tout l'espace disponible */
         }
 
         .newsletter-link {
@@ -73,6 +74,39 @@
             color: white;
         }
 
+        /* Zone de pied de page (Bouton S'abonner) */
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            background: #fff;
+        }
+
+        .subscribe-btn {
+            display: block;
+            background: var(--blue-action);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 112, 243, 0.2);
+        }
+
+        .subscribe-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .subscribe-btn span {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: normal;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
         /* Zone de lecture */
         #content-viewer {
             flex-grow: 1;
@@ -88,62 +122,4 @@
         }
 
         /* Mobile */
-        @media (max-width: 768px) {
-            body { flex-direction: column; }
-            #sidebar { width: 100%; height: 40vh; border-right: none; border-bottom: 1px solid #e0e0e0; }
-        }
-    </style>
-</head>
-<body>
-
-    <div id="sidebar">
-        <div class="sidebar-header">
-            <h1>La Lettre De Macéo</h1>
-            <p style="font-size: 0.8rem; margin: 5px 0 0 0; opacity: 0.8;">Sélectionnez une édition</p>
-        </div>
-        <div class="nav-list" id="links-container">
-            </div>
-    </div>
-
-    <div id="content-viewer">
-        <iframe name="viewer" id="main-iframe" src="V2.html"></iframe>
-    </div>
-
-    <script>
-        // LISTE DE TES NEWSLETTERS
-        const newsletters = [
-            { filename: "V2.html", title: "💰 Deuxième Édition", date: "Édition #2" },
-            { filename: "V1.html", title: "📈 Une action, c'est quoi ?", date: "Édition #1" }
-        ];
-
-        const container = document.getElementById('links-container');
-        const iframe = document.getElementById('main-iframe');
-
-        // Génération automatique des onglets sur le côté
-        newsletters.forEach((nl, index) => {
-            const a = document.createElement('a');
-            // La V2 (index 0) est marquée comme active par défaut
-            a.className = `newsletter-link ${index === 0 ? 'active' : ''}`;
-            a.innerHTML = `
-                <div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.7;">${nl.date}</div>
-                <div style="font-weight: bold;">${nl.title}</div>
-            `;
-            
-            a.onclick = (e) => {
-                e.preventDefault();
-                
-                // 1. Change la source de l'iframe pour afficher le fichier cliqué
-                iframe.src = nl.filename;
-                
-                // 2. Met à jour le style visuel (bouton noir pour l'actif)
-                document.querySelectorAll('.newsletter-link').forEach(link => {
-                    link.classList.remove('active');
-                });
-                a.classList.add('active');
-            };
-            
-            container.appendChild(a);
-        });
-    </script>
-</body>
-</html>
+        @media (max-width: 7
