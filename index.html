@@ -9,6 +9,7 @@
             --bg-site: #f8f9fa;
             --sidebar-width: 320px;
             --accent: #131b20;
+            --linkedin: #0077b5;
         }
 
         body {
@@ -17,7 +18,7 @@
             display: flex;
             height: 100vh;
             background: var(--bg-site);
-            overflow: hidden; /* Empêche le scroll sur toute la page */
+            overflow: hidden;
         }
 
         /* Liste latérale */
@@ -34,6 +35,7 @@
             padding: 25px 20px;
             background: #e7f5ff;
             border-bottom: 1px solid #d0eaff;
+            flex-shrink: 0;
         }
 
         .sidebar-header h1 {
@@ -44,8 +46,8 @@
 
         .nav-list {
             padding: 15px;
-            overflow-y: auto; /* Permet de scroller uniquement dans la liste si elle est longue */
-            flex-grow: 1;
+            overflow-y: auto; 
+            flex-grow: 1; /* Permet à la liste de prendre l'espace et de scroller si besoin */
         }
 
         .newsletter-link {
@@ -73,28 +75,41 @@
             color: white;
         }
 
-        /* AJOUT : Style du bouton s'abonner */
+        /* Pied de page de la sidebar pour les boutons fixes */
         .sidebar-footer {
             padding: 15px;
             border-top: 1px solid #eee;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .btn-subscribe {
+        .btn-action {
             display: block;
             width: 100%;
             padding: 12px;
-            background-color: var(--accent);
-            color: white;
             text-align: center;
             text-decoration: none;
             border-radius: 8px;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             box-sizing: border-box;
+            transition: opacity 0.2s;
         }
 
-        .btn-subscribe:hover {
-            opacity: 0.9;
+        .btn-linkedin {
+            background-color: var(--linkedin);
+            color: white;
+        }
+
+        .btn-subscribe {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.85;
         }
 
         /* Zone de lecture */
@@ -114,7 +129,7 @@
         /* Mobile */
         @media (max-width: 768px) {
             body { flex-direction: column; }
-            #sidebar { width: 100%; height: 40vh; border-right: none; border-bottom: 1px solid #e0e0e0; }
+            #sidebar { width: 100%; height: 50vh; border-right: none; border-bottom: 1px solid #e0e0e0; }
         }
     </style>
 </head>
@@ -125,13 +140,18 @@
             <h1>La Lettre De Macéo</h1>
             <p style="font-size: 0.8rem; margin: 5px 0 0 0; opacity: 0.8;">Sélectionnez une édition</p>
         </div>
+
         <div class="nav-list" id="links-container">
-        </div>
+            </div>
         
         <div class="sidebar-footer">
-            <a href="https://subscription-newsletter.vercel.app/" target="_blank" class="btn-subscribe">
+            <a href="https://www.linkedin.com/in/maceo-pauron/" target="_blank" class="btn-action btn-linkedin">
+                Me suivre sur LinkedIn
+            </a>
+            
+            <a href="https://subscription-newsletter.vercel.app/" target="_blank" class="btn-action btn-subscribe">
                 S'abonner à la newsletter
-                <div style="font-size: 0.7rem; font-weight: normal; margin-top: 3px;">Une par semaine</div>
+                <div style="font-size: 0.7rem; font-weight: normal; margin-top: 2px;">Une édition par semaine</div>
             </a>
         </div>
     </div>
@@ -141,7 +161,34 @@
     </div>
 
     <script>
-        // LISTE DE TES NEWSLETTERS
         const newsletters = [
             { filename: "V2.html", title: "💰 Deuxième Édition", date: "Édition #2" },
-            { filename: "V1.html
+            { filename: "V1.html", title: "📈 Une action, c'est quoi ?", date: "Édition #1" }
+        ];
+
+        const container = document.getElementById('links-container');
+        const iframe = document.getElementById('main-iframe');
+
+        newsletters.forEach((nl, index) => {
+            const a = document.createElement('a');
+            a.className = `newsletter-link ${index === 0 ? 'active' : ''}`;
+            a.innerHTML = `
+                <div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.7;">${nl.date}</div>
+                <div style="font-weight: bold;">${nl.title}</div>
+            `;
+            
+            a.onclick = (e) => {
+                e.preventDefault();
+                iframe.src = nl.filename;
+                
+                document.querySelectorAll('.newsletter-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                a.classList.add('active');
+            };
+            
+            container.appendChild(a);
+        });
+    </script>
+</body>
+</html>
