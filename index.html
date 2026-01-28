@@ -62,12 +62,6 @@
             cursor: pointer;
         }
 
-        .nav-item:hover {
-            border-color: var(--accent);
-            background: #f0f7ff;
-            transform: translateY(-2px);
-        }
-
         .nav-item.active {
             background: var(--accent);
             color: white;
@@ -75,14 +69,28 @@
             box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
         }
 
-        .card-locked {
+        /* Carte de l'édition à venir */
+        .card-upcoming {
             background: #f8fafc;
             border: 2px dashed #cbd5e1;
             border-radius: 20px;
-            padding: 25px 18px;
-            text-align: center;
+            padding: 20px;
+            text-align: left;
             opacity: 0.8;
             margin-top: 10px;
+            position: relative;
+        }
+
+        .tag-lock {
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
         /* --- FOOTER --- */
@@ -198,10 +206,10 @@
                 <div style="font-weight: 700;">🧑‍💻 À propos de moi</div>
             </a>
 
-            <div class="card-locked">
-                <div style="font-size: 1.5rem; margin-bottom: 10px;">🔒</div>
-                <div style="font-weight: 700; font-size: 1rem; color: var(--primary);">Édition disponible</div>
-                <div style="font-weight: 800; color: var(--accent); font-size: 0.9rem; margin-top: 5px;">Jeudi 5 Février</div>
+            <div class="card-upcoming">
+                <span class="tag-lock">🔒 Édition #1</span>
+                <div style="font-weight: 700; font-size: 1rem; color: var(--primary); margin-bottom: 5px;">Une action, c'est quoi ?</div>
+                <div style="font-weight: 600; color: var(--accent); font-size: 0.8rem;">Disponible le 5 février</div>
             </div>
         </div>
 
@@ -222,7 +230,7 @@
                 </p>
                 
                 <p style="line-height: 1.8; color: #334155; font-size: 1.1rem;">
-                    Dans cette newsletter, je partage des explications simples, des astuces pratiques et des analyses pour mieux comprendre le monde qui nous entoure.
+                    Dans cette newsletter, je partage des explications simples et des analyses pour mieux comprendre le monde qui nous entoure. N'hésitez pas à consulter mon LinkedIn pour être au courant de mes futurs projets !
                 </p>
 
                 <div style="margin-top: 40px; padding: 25px; background: #f8fafc; border-radius: 20px; border-left: 5px solid var(--accent);">
@@ -244,7 +252,6 @@
             overlay.classList.toggle('active');
         }
 
-        // Fonction simplifiée pour mardi (uniquement l'onglet à propos)
         function showAbout(element) {
             document.querySelectorAll('.nav-item').forEach(l => l.classList.remove('active'));
             element.classList.add('active');
