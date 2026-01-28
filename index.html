@@ -21,7 +21,7 @@
             overflow: hidden;
         }
 
-        /* Liste latérale */
+        /* --- SIDEBAR --- */
         #sidebar {
             width: var(--sidebar-width);
             background: white;
@@ -29,6 +29,8 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            transition: transform 0.3s ease;
+            z-index: 1000;
         }
 
         .sidebar-header {
@@ -38,18 +40,15 @@
             flex-shrink: 0;
         }
 
-        .sidebar-header h1 {
-            font-size: 1.2rem;
-            margin: 0;
-            color: var(--accent);
-        }
+        .sidebar-header h1 { font-size: 1.2rem; margin: 0; color: var(--accent); }
 
         .nav-list {
             padding: 15px;
             overflow-y: auto; 
-            flex-grow: 1; /* Permet à la liste de prendre l'espace et de scroller si besoin */
+            flex-grow: 1;
         }
 
+        /* --- Éléments de liste --- */
         .newsletter-link {
             display: block;
             padding: 15px;
@@ -60,22 +59,16 @@
             text-decoration: none;
             color: #444;
             transition: all 0.2s ease;
-            cursor: pointer;
         }
 
-        .newsletter-link:hover {
-            border-color: #a1d5f5;
-            background: #f0f9ff;
-            transform: translateY(-2px);
+        .newsletter-link.locked {
+            background: #fdfdfd;
+            border: 1px dashed #ccc;
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
-        .newsletter-link.active {
-            border-color: var(--accent);
-            background: var(--accent);
-            color: white;
-        }
-
-        /* Pied de page de la sidebar pour les boutons fixes */
+        /* --- FOOTER SIDEBAR --- */
         .sidebar-footer {
             padding: 15px;
             border-top: 1px solid #eee;
@@ -95,100 +88,69 @@
             font-weight: bold;
             font-size: 0.85rem;
             box-sizing: border-box;
-            transition: opacity 0.2s;
         }
 
-        .btn-linkedin {
-            background-color: var(--linkedin);
-            color: white;
-        }
+        .btn-linkedin { background-color: var(--linkedin); color: white; }
+        .btn-subscribe { background-color: var(--accent); color: white; }
 
-        .btn-subscribe {
-            background-color: var(--accent);
-            color: white;
-        }
-
-        .btn-action:hover {
-            opacity: 0.85;
-        }
-
-        /* Zone de lecture */
+        /* --- ZONE DE LECTURE --- */
         #content-viewer {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             background: #fff;
+            position: relative;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* --- BOUTON MENU MOBILE --- */
+        #mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--accent);
+            color: white;
             border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        /* Mobile */
+        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 768px) {
-            body { flex-direction: column; }
-            #sidebar { width: 100%; height: 50vh; border-right: none; border-bottom: 1px solid #e0e0e0; }
+            #sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                transform: translateX(-100%); /* Caché par défaut */
+                width: 85%;
+                box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+            }
+
+            #sidebar.open {
+                transform: translateX(0);
+            }
+
+            #mobile-menu-toggle {
+                display: block;
+            }
+
+            /* Overlay quand le menu est ouvert */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+            }
+            .overlay.active { display: block; }
         }
     </style>
 </head>
 <body>
 
-    <div id="sidebar">
-        <div class="sidebar-header">
-            <h1>La Lettre De Macéo</h1>
-            <p style="font-size: 0.8rem; margin: 5px 0 0 0; opacity: 0.8;">Sélectionnez une édition</p>
-        </div>
-
-        <div class="nav-list" id="links-container">
-            </div>
-        
-        <div class="sidebar-footer">
-            <a href="www.linkedin.com/in/maceo-pauron-56a6052b0" target="_blank" class="btn-action btn-linkedin">
-                Me suivre sur LinkedIn
-            </a>
-            
-            <a href="https://subscription-newsletter.vercel.app/" target="_blank" class="btn-action btn-subscribe">
-                S'abonner à la newsletter
-                <div style="font-size: 0.7rem; font-weight: normal; margin-top: 2px;">Une édition par semaine</div>
-            </a>
-        </div>
-    </div>
-
-    <div id="content-viewer">
-        <iframe name="viewer" id="main-iframe" src="V2.html"></iframe>
-    </div>
-
-    <script>
-        const newsletters = [
-            { filename: "V2.html", title: "💰 Deuxième Édition", date: "Édition #2" },
-            { filename: "V1.html", title: "📈 Une action, c'est quoi ?", date: "Édition #1" }
-        ];
-
-        const container = document.getElementById('links-container');
-        const iframe = document.getElementById('main-iframe');
-
-        newsletters.forEach((nl, index) => {
-            const a = document.createElement('a');
-            a.className = `newsletter-link ${index === 0 ? 'active' : ''}`;
-            a.innerHTML = `
-                <div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.7;">${nl.date}</div>
-                <div style="font-weight: bold;">${nl.title}</div>
-            `;
-            
-            a.onclick = (e) => {
-                e.preventDefault();
-                iframe.src = nl.filename;
-                
-                document.querySelectorAll('.newsletter-link').forEach(link => {
-                    link.classList.remove('active');
-                });
-                a.classList.add('active');
-            };
-            
-            container.appendChild(a);
-        });
-    </script>
-</body>
-</html>
+    <div class="overlay" id="overlay"></div>
