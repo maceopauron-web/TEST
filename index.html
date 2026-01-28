@@ -48,6 +48,7 @@
             flex-grow: 1;
         }
 
+        /* --- Éléments de liste --- */
         .newsletter-link {
             display: block;
             padding: 15px;
@@ -57,6 +58,7 @@
             border-radius: 8px;
             text-decoration: none;
             color: #444;
+            transition: all 0.2s ease;
         }
 
         .newsletter-link.locked {
@@ -66,6 +68,7 @@
             cursor: not-allowed;
         }
 
+        /* --- FOOTER SIDEBAR --- */
         .sidebar-footer {
             padding: 15px;
             border-top: 1px solid #eee;
@@ -88,3 +91,123 @@
         }
 
         .btn-linkedin { background-color: var(--linkedin); color: white; }
+        .btn-subscribe { background-color: var(--accent); color: white; }
+
+        /* --- ZONE DE LECTURE --- */
+        #content-viewer {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            position: relative;
+        }
+
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* --- BOUTON MENU MOBILE --- */
+        #mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 768px) {
+            #sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                transform: translateX(-100%); /* Caché par défaut */
+                width: 85%;
+                box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+            }
+
+            #sidebar.open {
+                transform: translateX(0);
+            }
+
+            #mobile-menu-toggle {
+                display: block;
+            }
+
+            /* Overlay quand le menu est ouvert */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+            }
+            .overlay.active { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="overlay"></div>
+
+    <button id="mobile-menu-toggle">Menu ☰</button>
+
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <h1>La Lettre De Macéo</h1>
+            <p style="font-size: 0.8rem; margin: 5px 0 0 0; opacity: 0.8;">Découvrez mes éditions</p>
+        </div>
+
+        <div class="nav-list" id="links-container">
+            <div class="newsletter-link locked">
+                <div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.7;">Édition à venir</div>
+                <div style="font-weight: bold;">🔒 Dispo. Jeudi 5 Février</div>
+                <div style="font-size: 0.75rem; margin-top: 5px; color: #666;">Préparez-vous, le contenu arrive bientôt...</div>
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <a href="https://www.linkedin.com/in/maceo-pauron-56a6052b0" target="_blank" class="btn-action btn-linkedin">
+                Me suivre sur LinkedIn
+            </a>
+            
+            <a href="https://subscription-newsletter.vercel.app/" target="_blank" class="btn-action btn-subscribe">
+                S'abonner
+                <div style="font-size: 0.7rem; font-weight: normal;">Une édition par semaine</div>
+            </a>
+        </div>
+    </div>
+
+    <div id="content-viewer">
+        <div id="empty-state" style="padding: 40px; text-align: center; color: #888; margin: auto;">
+            <h2>Bienvenue sur La Lettre De Macéo</h2>
+            <p>La prochaine édition sera disponible le 5 février.</p>
+        </div>
+        <iframe name="viewer" id="main-iframe" src="" style="display:none;"></iframe>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById('mobile-menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        // Fonction pour ouvrir/fermer le menu sur mobile
+        function toggleMenu() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            menuBtn.innerHTML = sidebar.classList.contains('open') ? 'Fermer ✕' : 'Menu ☰';
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // Si tu ajoutes des newsletters plus tard dans le JS, 
+        // n'oublie pas de cacher "empty-state" et d'afficher "main-iframe".
+    </script>
+</body>
+</html>
