@@ -62,6 +62,12 @@
             cursor: pointer;
         }
 
+        .nav-item:hover {
+            border-color: var(--accent);
+            background: #f0f7ff;
+            transform: translateY(-2px);
+        }
+
         .nav-item.active {
             background: var(--accent);
             color: white;
@@ -69,27 +75,15 @@
             box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
         }
 
+        /* Onglet Prochaine Edition (Lock) */
         .card-upcoming {
             background: #f8fafc;
             border: 2px dashed #cbd5e1;
             border-radius: 20px;
-            padding: 20px;
-            text-align: left;
-            opacity: 0.8;
+            padding: 18px;
+            text-align: center;
+            opacity: 0.7;
             margin-top: 10px;
-            position: relative;
-        }
-
-        .tag-lock {
-            background: #e2e8f0;
-            color: #475569;
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 50px;
-            display: inline-block;
-            margin-bottom: 10px;
-            text-transform: uppercase;
         }
 
         /* --- FOOTER --- */
@@ -127,10 +121,13 @@
             position: relative;
         }
 
+        iframe { width: 100%; height: 100%; border: none; display: none; }
+
         .content-placeholder {
             padding: 40px;
             max-width: 600px;
             margin: auto;
+            text-align: left;
             overflow-y: auto;
         }
 
@@ -186,7 +183,7 @@
     <div id="mobile-header">
         <div>
             <div style="font-weight: 800; letter-spacing: -0.5px; font-size: 1rem; color: var(--primary);">LA LETTRE DE MACÉO</div>
-            <div style="font-size: 0.65rem; color: var(--accent); font-weight: 600; text-transform: uppercase;">Created by Maceo</div>
+            <div style="font-size: 0.65rem; color: var(--accent); font-weight: 600; text-transform: uppercase;">Created by Macéo</div>
         </div>
         <button id="open-menu">MENU ☰</button>
     </div>
@@ -196,19 +193,23 @@
     <aside id="sidebar">
         <div class="sidebar-header">
             <h1 style="margin:0; font-size: 1.4rem; letter-spacing: -1px;">La Lettre De Macéo</h1>
-            <p style="margin: 5px 0 0 0; opacity: 0.8; font-size: 0.85rem; font-style: italic; font-weight: 300;">Created by Maceo</p>
+            <p style="margin: 5px 0 0 0; opacity: 0.8; font-size: 0.85rem; font-style: italic; font-weight: 300;">Created by Macéo</p>
         </div>
 
         <div class="nav-list">
             <a class="nav-item active" id="btn-about" onclick="showAbout(this)">
-                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: inherit; margin-bottom: 4px; opacity: 0.8;">En savoir plus</div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: var(--accent); margin-bottom: 4px;">En savoir plus</div>
                 <div style="font-weight: 700;">🧑‍💻 À propos de moi</div>
             </a>
 
+            <a class="nav-item" onclick="loadNewsletter('Newsletter 1 .html', this)">
+                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; opacity: 0.6; margin-bottom: 4px;">Dernière édition</div>
+                <div style="font-weight: 700;">📈 Une action, c'est quoi ?</div>
+            </a>
+
             <div class="card-upcoming">
-                <span class="tag-lock">🔒 Édition #1</span>
-                <div style="font-weight: 700; font-size: 1rem; color: var(--primary); margin-bottom: 5px;">Une action, c'est quoi ?</div>
-                <div style="font-weight: 600; color: var(--accent); font-size: 0.8rem;">Disponible le 5 février</div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: #64748b; margin-bottom: 4px;">Prochaine édition</div>
+                <div style="font-weight: 700; color: #94a3b8;">🔒 Disponible la semaine prochaine !</div>
             </div>
         </div>
 
@@ -219,33 +220,49 @@
     </aside>
 
     <main id="content-viewer">
-        <div class="content-placeholder">
-            <div id="about-msg" style="text-align: left;">
-                <h2 style="font-size: 2rem; letter-spacing: -1px; text-align: center; margin-bottom: 10px;">À propos de moi</h2>
-                <div style="width: 50px; height: 4px; background: var(--accent); margin: 0 auto 30px auto; border-radius: 10px;"></div>
-                
-                <p style="line-height: 1.8; color: #334155; font-size: 1.1rem;">
+        <div id="text-content" class="content-placeholder">
+            <div id="about-msg">
+                <h2 style="font-size: 1.8rem; letter-spacing: -1px; text-align: center;">À propos de moi</h2>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                <p style="line-height: 1.7; color: #334155;">
                     Je m’appelle <strong>Macéo Pauron</strong>, je suis étudiant en 1ère année de Licence Gestion et je suis passionné par l’économie, la finance et l’investissement.
-                </p>
-                
-                <p style="line-height: 1.8; color: #334155; font-size: 1.1rem;">
+                    <br><br>
                     Dans cette newsletter, je partage des explications simples et des analyses pour mieux comprendre le monde qui nous entoure. N'hésitez pas à consulter mon LinkedIn pour être au courant de mes futurs projets !
                 </p>
             </div>
         </div>
+
+        <iframe name="viewer" id="main-iframe"></iframe>
     </main>
 
     <script>
         const openBtn = document.getElementById('open-menu');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
+        const iframe = document.getElementById('main-iframe');
+        const aboutMsg = document.getElementById('about-msg');
+        const textContainer = document.getElementById('text-content');
 
         function toggleMenu() {
             sidebar.classList.toggle('open');
             overlay.classList.toggle('active');
         }
 
+        function loadNewsletter(url, element) {
+            textContainer.style.display = 'none';
+            iframe.style.display = 'block';
+            iframe.src = url;
+            setActive(element);
+        }
+
         function showAbout(element) {
+            iframe.style.display = 'none';
+            textContainer.style.display = 'block';
+            aboutMsg.style.display = 'block';
+            setActive(element);
+        }
+
+        function setActive(element) {
             document.querySelectorAll('.nav-item').forEach(l => l.classList.remove('active'));
             element.classList.add('active');
             if (window.innerWidth <= 768) toggleMenu();
