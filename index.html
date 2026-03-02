@@ -79,12 +79,12 @@
 
         .card-upcoming {
             background: #f8fafc;
-            border: 2px dashed #cbd5e1;
+            border: 2px dashed #3b82f6; /* Changé en bleu pour plus de visibilité */
             border-radius: 20px;
             padding: 18px;
             text-align: center;
-            opacity: 0.8;
-            margin-top: 10px;
+            margin-bottom: 20px; /* Espace avant la liste dispo */
+            position: relative;
         }
 
         /* --- FOOTER --- */
@@ -228,8 +228,20 @@
                 <div style="font-weight: 700;">🧑‍💻 À propos de moi</div>
             </a>
 
+            <div class="card-upcoming">
+                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: var(--accent); margin-bottom: 4px;">🚀 Prochaine édition</div>
+                <div style="font-weight: 700; color: var(--primary);">🏗️ Les Matières Premières : Mardi prochain !</div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #f1f5f9; margin-bottom: 20px;">
+
+            <a class="nav-item" onclick="loadNewsletter('Newsletter 5 .html', this)">
+                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: var(--success); margin-bottom: 4px;">Dernière édition (3 Mars)</div>
+                <div style="font-weight: 700;">₿ Les Cryptomonnaies</div>
+            </a>
+
             <a class="nav-item" onclick="loadNewsletter('Newsletter 4 .html', this)">
-                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: var(--success); margin-bottom: 4px;">Dernière édition (24 février)</div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; opacity: 0.6; margin-bottom: 4px;">Édition du 24 février</div>
                 <div style="font-weight: 700;">🏦 Les Obligations : Comprendre la dette</div>
             </a>
 
@@ -247,11 +259,6 @@
                 <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; opacity: 0.6; margin-bottom: 4px;">Édition du 3 février</div>
                 <div style="font-weight: 700;">📈 Une action, c'est quoi ?</div>
             </a>
-
-            <div class="card-upcoming">
-                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: #64748b; margin-bottom: 4px;">Prochaine édition</div>
-                <div style="font-weight: 700; color: #94a3b8;">🔒 Les Cryptomonnaies : Dispo mardi prochain !</div>
-            </div>
         </div>
 
         <div class="sidebar-footer">
