@@ -79,11 +79,11 @@
 
         .card-upcoming {
             background: #f8fafc;
-            border: 2px dashed #3b82f6; /* Changé en bleu pour plus de visibilité */
+            border: 2px dashed #3b82f6;
             border-radius: 20px;
             padding: 18px;
             text-align: center;
-            margin-bottom: 20px; /* Espace avant la liste dispo */
+            margin-bottom: 20px;
             position: relative;
         }
 
@@ -230,13 +230,18 @@
 
             <div class="card-upcoming">
                 <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: var(--accent); margin-bottom: 4px;">🚀 Prochaine édition</div>
-                <div style="font-weight: 700; color: var(--primary);">🏗️ Les Matières Premières : Mardi prochain !</div>
+                <div style="font-weight: 700; color: var(--primary);">🏛️ Le rôle de la BCE : Mardi prochain !</div>
             </div>
 
             <hr style="border: 0; border-top: 1px solid #f1f5f9; margin-bottom: 20px;">
 
+            <a class="nav-item" onclick="loadNewsletter('Newsletter 6 .html', this)">
+                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: var(--success); margin-bottom: 4px;">Dernière édition (10 Mars)</div>
+                <div style="font-weight: 700;">🏗️ Les matières premières</div>
+            </a>
+
             <a class="nav-item" onclick="loadNewsletter('Newsletter 5 .html', this)">
-                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: var(--success); margin-bottom: 4px;">Dernière édition (3 Mars)</div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; opacity: 0.6; margin-bottom: 4px;">Édition du 3 mars</div>
                 <div style="font-weight: 700;">₿ Les Cryptomonnaies</div>
             </a>
 
